@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Move this file to /usr/local/bin after chmod +x
+gotty -w  -p $1 sudo docker container run -it $2

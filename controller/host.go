@@ -5,6 +5,8 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"os"
+	"os/exec"
 
 	"../model"
 )
@@ -37,6 +39,27 @@ func (h Host) servepage(w http.ResponseWriter, r *http.Request) {
 		}
 
 		enc := json.NewEncoder(w)
+
+		// executing terminal logic
+		go func() {
+			cmd := exec.Command("session", data.Port1, data.Image1)
+			cmd.Stdout = os.Stdout
+			if err := cmd.Run(); err != nil {
+				log.Fatalln(err)
+			} else {
+				log.Printf("Running %s on port %d", data.Image1, data.Port1)
+			}
+		}()
+
+		go func() {
+			cmd := exec.Command("session", data.Port2, data.Port1)
+			cmd.Stdout = os.Stdout
+			if err := cmd.Run(); err != nil {
+				log.Fatalln(err)
+			} else {
+				log.Printf("Running %s on port %d", data.Port1, data.Port2)
+			}
+		}()
 
 		enc.Encode(struct {
 			Done bool `json:"done"`
