@@ -29,19 +29,18 @@ func (h Host) servepage(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusNotFound)
 		}
 	} else if r.Method == http.MethodPost {
-		var host model.HostType
-		decoder := json.NewDecoder(r.Body)
-		err := decoder.Decode(&host)
-		if err == nil {
+		data := model.HostType{}
+		err := json.NewDecoder(r.Body).Decode(&data)
+
+		if err != nil {
 			log.Println(err)
 		}
 
 		enc := json.NewEncoder(w)
 
 		enc.Encode(struct {
-			done bool
+			Done bool `json:"done"`
 		}{true})
 
-		log.Println(host)
 	}
 }
