@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"encoding/json"
 	"html/template"
 	"log"
 	"net/http"
@@ -31,14 +30,24 @@ func (h Host) servepage(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusNotFound)
 		}
 	} else if r.Method == http.MethodPost {
-		data := model.HostType{}
-		err := json.NewDecoder(r.Body).Decode(&data)
+		err := r.ParseForm()
 
 		if err != nil {
 			log.Println(err)
 		}
 
-		enc := json.NewEncoder(w)
+		f := r.Form
+
+		data := model.HostType{
+			Port1:    f.Get("port1"),
+			Port2:    f.Get("port2"),
+			Image1:   f.Get("image1"),
+			Image2:   f.Get("image2"),
+			Email:    f.Get("email"),
+			Password: f.Get("password"),
+		}
+
+		//log.Println(data)
 
 		// executing terminal logic
 		go func() {
@@ -52,18 +61,24 @@ func (h Host) servepage(w http.ResponseWriter, r *http.Request) {
 		}()
 
 		go func() {
-			cmd := exec.Command("session", data.Port2, data.Port1)
+			cmd := exec.Command("session", data.Port2, data.Image2)
 			cmd.Stdout = os.Stdout
 			if err := cmd.Run(); err != nil {
 				log.Fatalln(err)
 			} else {
-				log.Printf("Running %s on port %d", data.Port1, data.Port2)
+				log.Printf("Running %s on port %d", data.Image2, data.Port2)
 			}
 		}()
 
-		enc.Encode(struct {
-			Done bool `json:"done"`
-		}{true})
+		t := h.temp.Lookup("session.html")
+		if t != nil {
+			err := t.Execute(w, data)
+			if err != nil {
+				log.Println(err)
+			}
+		} else {
+			w.WriteHeader(http.StatusNotFound)
+		}
 
 	}
 }

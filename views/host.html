@@ -13,38 +13,38 @@
     <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
     <div class="row">
-            <form class="col s12">
+            <form class="col s12" action="/host" method="post">
               <div class="row">
                 <div class="input-field col s6">
-                  <input type="text" id="email" class="validate">
+                  <input type="text" id="email" name="email" class="validate">
                   <label for="email">email</label>
                 </div>
                 <div class="input-field col s6">
-                  <input  type="password" id="password" class="validate">
+                  <input  type="password" id="password"  name="password" class="validate">
                   <label for="password">password</label>
                 </div>
                 <div class="input-field col s6">
-                        <input type="text" class="validate" id="port1">
+                        <input type="text" class="validate" id="port1" name="port1">
                         <label for="port1">port1</label>
                       </div>
                       <div class="input-field col s6">
-                        <input type="text" class="validate" id="image1">
+                        <input type="text" class="validate" id="image1" name="image1">
                         <label for="image1">image1</label>
                       </div>
                       <div class="input-field col s6">
-                            <input type="text" class="validate" id="port2">
+                            <input type="text" class="validate" id="port2"  name="port2">
                             <label for="port2">port2</label>
                           </div>
                           <div class="input-field col s6">
-                            <input type="text" class="validate" id="image2">
+                            <input type="text" class="validate" id="image2" name="image2">
                             <label for="image2">image2</label>
                           </div>
               </div>
-              <center><a class="btn" id="host-submit">Submit</a></center>
+              <center><button type="submit" class="btn" id="host-submit">Submit</button></center>
             </form>
           </div>
 
-          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-          <script src="js/host.js"></script>
+          <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+          <!-- <script src="js/host.js"></script> -->
 </body>
 </html>

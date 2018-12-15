@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Session</title>
+</head>
+<body>
+    {{ template "_navbar.html" }}
+     <br>
+
+     <iframe src="http://localhost:{{ .Port1 }}" width="100%" height="75%"></iframe>
+     <iframe src="http://localhost:{{ .Port2 }}" width="100%" height="75%"></iframe>
+    {{ template "_scripts.html" }}
+</body>
+</html>
