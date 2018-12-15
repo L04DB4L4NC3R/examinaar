@@ -9,7 +9,7 @@ Multiple shared web terminals along with web RTC for CEH/Comptia+/RHCE/RHCS/LFCE
 
 <br />
 
-* Make sure you have golang and docker installed
+* Make sure you have [go](https://golang.org/dl/) and [docker](https://get.docker.com/) installed
 
 <br />
 
