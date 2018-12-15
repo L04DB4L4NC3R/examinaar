@@ -1,0 +1,9 @@
+#!/bin/bash
+
+go get github.com/yudai/gotty
+
+chmod +x bin/session 
+
+sudo cp bin/session /usr/local/bin
+
+go run main.go
