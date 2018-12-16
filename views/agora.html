@@ -8,6 +8,9 @@
 </head>
 
 <body>
+    {{ template "_navbar.html" }}
+    <br>
+
 <div id="div_device" class="panel panel-default">
 <div class="select">
 <label for="audioSource">Audio source: </label><select id="audioSource"></select>
@@ -47,7 +50,11 @@ Host: <input id="video" type="checkbox" checked></input>
 <div id="video" style="margin:0 auto;">
     <div id="agora_local" style="float:right;width:210px;height:147px;display:inline-block;"></div>
 </div>
+<br><br>
 
+<iframe src="http://localhost:{{ .Port1 }}" width="100%" height="75%"></iframe>
+<iframe src="http://localhost:{{ .Port2 }}" width="100%" height="75%"></iframe>
+{{ template "_scripts.html" }}
 <script language="javascript">
 
 if(!AgoraRTC.checkSystemRequirements()) {
