@@ -7,8 +7,8 @@ import (
 
 var db *sql.DB
 
-func SetDB(db *sql.DB) {
-	db = db
+func SetDB(database *sql.DB) {
+	db = database
 }
 
 type HostType struct {
@@ -40,10 +40,10 @@ func CreateSessions(h HostType) (bool, error) {
 		if flag == 1 {
 			return false, fmt.Errorf("Session already in place")
 		} else {
-			break
+			return false, fmt.Errorf("Error in creating session")
 		}
 	}
-
+	fmt.Println("ducky")
 	_, err = db.Exec(`
 		INSERT INTO HOSTS(EMAIL,PASSWORD,PORT1,PORT2,IMAGE1,IMAGE2,CHANNEL,HOSTING)
 		VALUES($1, $2, $3, $4, $5, $6, $7, $8)
@@ -59,7 +59,7 @@ func CreateSessions(h HostType) (bool, error) {
 
 // Show all active sessions
 
-func ReadSessions(h *HostType) ([]HostType, error) {
+func ReadSessions() ([]HostType, error) {
 	var (
 		arr  []HostType
 		data HostType
@@ -92,23 +92,9 @@ func ReadSessions(h *HostType) ([]HostType, error) {
 	return arr, nil
 }
 
-func DeleteSessions(h *HostType) (bool, error) {
+func DeleteSessions(h HostType) (bool, error) {
 	_, err := db.Exec(`
-		DELETE * FROM HOSTS
-		WHERE EMAIL=$1
-	`, h.Email)
-
-	if err != nil {
-		return false, err
-	}
-
-	return true, nil
-}
-
-func StopSession(h *HostType) (bool, error) {
-	_, err := db.Exec(`
-		DELETE PORT1, PORT2, IMAGE1, IMAGE2, HOSTING
-		FROM HOSTS
+		DELETE FROM HOSTS
 		WHERE EMAIL=$1
 	`, h.Email)
 

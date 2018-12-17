@@ -1,6 +1,8 @@
 package controller
 
 import (
+	"encoding/json"
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -49,6 +51,17 @@ func (h Host) servepage(w http.ResponseWriter, r *http.Request) {
 			Hosting:  true,
 		}
 
+		_, err = model.CreateSessions(data)
+		switch {
+		case err == fmt.Errorf("Session already in place"):
+			w.Write([]byte("Session already in place"))
+			return
+		case err != nil:
+			log.Println(err)
+			return
+
+		}
+
 		go func() {
 			cmd := exec.Command("session", data.Port1, data.Image1)
 			cmd.Stdout = os.Stdout
@@ -91,5 +104,20 @@ func (h Host) agora(w http.ResponseWriter, r *http.Request) {
 		}
 	} else {
 		w.WriteHeader(http.StatusNotFound)
+	}
+}
+
+func (h Host) viewSessions(w http.ResponseWriter, r *http.Request) {
+	data, err := model.ReadSessions()
+
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	err = json.NewEncoder(w).Encode(data)
+
+	if err != nil {
+		log.Println(err)
 	}
 }
