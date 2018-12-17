@@ -63,10 +63,25 @@
           <script>
             $(document).ready(()=>{
               $("#your_session").hide()
-                if( "{{ .Hosting }}" === true ) {
+                if( "{{ .Port1 }}" ) {
                   $("#create_new").hide()
                   $("#your_session").show()
                 }
+
+              $("#remove_session").on("click", (e)=>{
+                e.preventDefault();
+                $.post("/host/session/delete", JSON.stringify({
+                  email:"{{ .Email }}"
+                }), (resp)=>{
+                  //console.log(resp)
+                  alert(resp)
+                  if (resp=="Deleted"){
+                    $("#create_new").show()
+                  $("#your_session").hide()
+                  }
+                 
+                })
+              })
 
             })
           </script>

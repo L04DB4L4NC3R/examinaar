@@ -92,11 +92,12 @@ func ReadSessions() ([]HostType, error) {
 	return arr, nil
 }
 
-func DeleteSessions(h HostType) (bool, error) {
+func DeleteSessions(e string) (bool, error) {
 	_, err := db.Exec(`
-		DELETE FROM HOSTS
-		WHERE EMAIL=$1
-	`, h.Email)
+		UPDATE HOSTS 
+		SET PORT1='', PORT2='', IMAGE1='', IMAGE2='', HOSTING=$1 
+		WHERE EMAIL=$2
+	`, 0, e)
 
 	if err != nil {
 		return false, err

@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"encoding/json"
 	"fmt"
 	"html/template"
 	"log"
@@ -20,6 +21,7 @@ func (h Host) RegisterRoutes() {
 	http.HandleFunc("/host", h.servepage)
 	http.HandleFunc("/host/signup", h.Signup)
 	http.HandleFunc("/host/login", h.Login)
+	http.HandleFunc("/host/session/delete", h.removeSession)
 }
 
 func (h Host) servepage(w http.ResponseWriter, r *http.Request) {
@@ -111,5 +113,27 @@ func (h Host) servepage(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusNotFound)
 		}
 
+	}
+}
+
+func (h Host) removeSession(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodPost {
+		var e struct {
+			Email string `json:"email"`
+		}
+
+		err := json.NewDecoder(r.Body).Decode(&e)
+
+		if err != nil {
+			log.Println(err)
+		}
+
+		_, err = model.DeleteSessions(e.Email)
+
+		if err != nil {
+			log.Println(err)
+		}
+
+		w.Write([]byte("Deleted"))
 	}
 }

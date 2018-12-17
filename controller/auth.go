@@ -90,7 +90,7 @@ func (h Host) Login(w http.ResponseWriter, r *http.Request) {
 		} else if val.Password == data.Password {
 			t := h.temp.Lookup("host.html")
 			if t != nil {
-				err = t.Execute(w, data)
+				err = t.Execute(w, val)
 				if err != nil {
 					log.Println(err)
 				}
