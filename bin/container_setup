@@ -1,5 +1,0 @@
-#!/bin/bash
-
-# Move this file to /usr/local/bin after chmod +x
-
-docker container run -it -d --name $1$2 $1

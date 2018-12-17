@@ -13,18 +13,16 @@ Multiple shared web terminals along with web RTC for CEH/Comptia+/RHCE/RHCS/LFCE
 
 <br />
 
-* Run the following commands
+* To install goTTY
 
 <br />
 
 
 ```
+go get github.com/yudai/gotty
 
-git clone https://github.com/angadsharma1016/shared_terminal_rtc.git
+export PATH="$PATH:$GOBIN"
 
-cd shared_terminal_rtc
-
-chmod +x bin/run
-
-./bin/run
+source ~/.profile
 ```
+

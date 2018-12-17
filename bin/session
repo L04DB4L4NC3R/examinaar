@@ -1,4 +1,0 @@
-#!/bin/bash
-
-# Move this file to /usr/local/bin after chmod +x
-gotty -w -p $1 docker container exec -it $2$3 sh
