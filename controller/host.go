@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"encoding/json"
 	"fmt"
 	"html/template"
 	"log"
@@ -104,20 +103,5 @@ func (h Host) agora(w http.ResponseWriter, r *http.Request) {
 		}
 	} else {
 		w.WriteHeader(http.StatusNotFound)
-	}
-}
-
-func (h Host) viewSessions(w http.ResponseWriter, r *http.Request) {
-	data, err := model.ReadSessions()
-
-	if err != nil {
-		log.Println(err)
-		return
-	}
-
-	err = json.NewEncoder(w).Encode(data)
-
-	if err != nil {
-		log.Println(err)
 	}
 }

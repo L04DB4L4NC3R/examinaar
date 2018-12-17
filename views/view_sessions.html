@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Available sessions</title>
+</head>
+<body>
+    {{ template "_navbar.html" }}
+
+    <br>
+
+    {{ range . }}
+    
+    <div class="row">
+        <form class="col s12" action="/userJoin" method="post">
+          <div class="row">
+            <div class="input-field col s6">
+              <input type="text" id="email" name="email" class="validate" value="{{ .Email }}">
+              <label for="email">email</label>
+            </div>
+
+            <div class="input-field col s6">
+                    <input type="text" class="validate" id="port1" name="port1" value="{{ .Port1 }}">
+                    <label for="port1">port1</label>
+                  </div>
+                  <div class="input-field col s6">
+                    <input type="text" class="validate" id="image1" name="image1" value="{{ .Image1 }}">
+                    <label for="image1">image1</label>
+                  </div>
+                  <div class="input-field col s6">
+                        <input type="text" class="validate" id="port2"  name="port2" value="{{ .Port2 }}">
+                        <label for="port2">port2</label>
+                      </div>
+                      <div class="input-field col s6">
+                        <input type="text" class="validate" id="image2" name="image2" value="{{ .Image2 }}">
+                        <label for="image2">image2</label>
+                      </div>
+          </div>
+          <center><button type="submit" class="btn" id="host-submit">Join</button></center>
+        </form>
+      </div>
+    
+    {{ end }}
+
+    {{ template "_scripts.html" }}
+</body>
+</html>
