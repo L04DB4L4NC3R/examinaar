@@ -91,3 +91,22 @@ func (h HostType) ReadSessions(db *sql.DB) ([]HostType, error) {
 
 	return arr, nil
 }
+
+func (h HostType) DeleteSessions(*sql.DB) (bool, error) {
+	_, err := db.Exec(`
+		DELETE * FROM HOSTS
+		WHERE EMAIL=$1
+	`, h.Email)
+
+	if err != nil {
+		return false, err
+	}
+
+	return true, nil
+}
+
+// func (h HostType) StopSession(*sql.DB) (bool, error) {
+// 	_, err := db.Exec(`
+// 		DELETE PORT1, PORT2, IMAGE1, IMAGE2
+// 	`)
+// }
