@@ -71,7 +71,13 @@
               $("#remove_session").on("click", (e)=>{
                 e.preventDefault();
                 $.post("/host/session/delete", JSON.stringify({
-                  email:"{{ .Email }}"
+                  email    : "{{ .Email }}",
+	                password : "{{ .Password }}",
+	                port1    : "{{ .Port1 }}",
+	                port2    : "{{ .Port2 }}",
+	                image1   : "{{ .Image1 }}",
+	                image2   : "{{ .Image2 }}",
+	                hosting  : "{{ .Hosting }}"
                 }), (resp)=>{
                   //console.log(resp)
                   alert(resp)

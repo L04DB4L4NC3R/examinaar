@@ -118,15 +118,33 @@ func (h Host) servepage(w http.ResponseWriter, r *http.Request) {
 
 func (h Host) removeSession(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodPost {
-		var e struct {
-			Email string `json:"email"`
-		}
+		var e model.HostType
 
 		err := json.NewDecoder(r.Body).Decode(&e)
 
 		if err != nil {
 			log.Println(err)
 		}
+
+		go func() {
+			cmd := exec.Command("docker", "container", "rm", "-f", e.Image1+"1")
+			cmd.Stdout = os.Stdout
+			cmd.Stdin = os.Stdin
+			cmd.Stderr = os.Stderr
+			if err = cmd.Run(); err != nil {
+				log.Println(err)
+			}
+		}()
+
+		go func() {
+			cmd := exec.Command("docker", "container", "rm", "-f", e.Image2+"2")
+			cmd.Stdout = os.Stdout
+			cmd.Stdin = os.Stdin
+			cmd.Stderr = os.Stderr
+			if err = cmd.Run(); err != nil {
+				log.Println(err)
+			}
+		}()
 
 		_, err = model.DeleteSessions(e.Email)
 
