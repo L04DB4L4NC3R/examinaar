@@ -73,14 +73,10 @@ func (h Host) servepage(w http.ResponseWriter, r *http.Request) {
 				// exec into that container and share
 				cmd := exec.Command("session", data.Port1, data.Image1, "1")
 				cmd.Stdout = os.Stdout
-				// cmd.Stdout = os.Stdout
 
 				if err = cmd.Run(); err != nil {
 					log.Fatalln(err)
 				}
-				// } else {
-				// 	c <- "Running" + data.Image1 + "on port" + data.Port1
-				// }
 
 			}
 
@@ -98,16 +94,14 @@ func (h Host) servepage(w http.ResponseWriter, r *http.Request) {
 				if err = cmd.Run(); err != nil {
 					log.Fatalln(err)
 				}
-				// } else {
-				// 	c <- "Running" + data.Image2 + "on port" + data.Port2
-				// }
+
 			}
 
 		}()
 
 		time.Sleep(3 * time.Second)
 
-		t := h.temp.Lookup("session.html")
+		t := h.temp.Lookup("agora.html")
 		if t != nil {
 			err := t.Execute(w, data)
 			if err != nil {

@@ -69,7 +69,7 @@ func (u User) userJoin(w http.ResponseWriter, r *http.Request) {
 			Email:  f.Get("email"),
 		}
 
-		t := u.temp.Lookup("session.html")
+		t := u.temp.Lookup("agora.html")
 		if t != nil {
 			err = t.Execute(w, data)
 			if err != nil {
