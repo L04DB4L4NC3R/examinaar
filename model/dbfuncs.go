@@ -3,6 +3,7 @@ package model
 import (
 	"database/sql"
 	"fmt"
+	"log"
 )
 
 var db *sql.DB
@@ -18,7 +19,7 @@ type HostType struct {
 	Port2    string `json:"port2"`
 	Image1   string `json:"image1"`
 	Image2   string `json:"image2"`
-	Channel  uint16 `json:"channel"`
+	Channel  string `json:"channel"`
 	Hosting  bool   `json:"hosting"`
 }
 
@@ -42,11 +43,12 @@ func CreateSessions(h HostType) (bool, error) {
 		break
 
 	}
+
 	_, err = db.Exec(`
 		UPDATE HOSTS
-		SET PORT1=$2,PORT2=$3,IMAGE1=$4,IMAGE2=$5,CHANNEL=$6,HOSTING=$7
-		WHERE EMAIL=$1
-	`, h.Email, h.Port1, h.Port2, h.Image1, h.Image2, h.Channel, true)
+		SET HOSTING=$1, PORT1=$2, PORT2=$3, IMAGE1=$4, IMAGE2=$5
+		WHERE EMAIL=$6
+	`, 1, h.Port1, h.Port2, h.Image1, h.Image2, h.Email)
 
 	if err != nil {
 		return false, err
@@ -65,17 +67,16 @@ func ReadSessions() ([]HostType, error) {
 	)
 
 	rows, err := db.Query(`
-		SELECT EMAIL,PORT1,PORT2,IMAGE1,IMAGE2,CHANNEL,HOSTING 
+		SELECT EMAIL, PORT1, PORT2, IMAGE1, IMAGE2, HOSTING 
 		FROM HOSTS WHERE HOSTING=$1
-	`, true)
+	`, 1)
 
 	if err != nil {
 		return nil, err
 	}
 
 	for rows.Next() {
-		err = rows.Scan(&data.Email, &data.Port1, &data.Port2, &data.Image1, &data.Image2,
-			&data.Channel, &data.Hosting)
+		err = rows.Scan(&data.Email, &data.Port1, &data.Port2, &data.Image1, &data.Image2, &data.Hosting)
 		switch {
 		case err == sql.ErrNoRows:
 			return nil, nil
@@ -87,7 +88,7 @@ func ReadSessions() ([]HostType, error) {
 		}
 
 	}
-
+	log.Println(arr)
 	return arr, nil
 }
 
