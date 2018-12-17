@@ -45,9 +45,10 @@ func CreateSessions(h HostType) (bool, error) {
 	}
 	fmt.Println("ducky")
 	_, err = db.Exec(`
-		INSERT INTO HOSTS(EMAIL,PASSWORD,PORT1,PORT2,IMAGE1,IMAGE2,CHANNEL,HOSTING)
-		VALUES($1, $2, $3, $4, $5, $6, $7, $8)
-	`, h.Email, h.Password, h.Port1, h.Port2, h.Image1, h.Image2, h.Channel, h.Hosting)
+		INSERT INTO HOSTS(PORT1,PORT2,IMAGE1,IMAGE2,CHANNEL,HOSTING)
+		VALUES($2, $3, $4, $5, $6, $7)
+		WHERE EMAIL=$1
+	`, h.Email, h.Port1, h.Port2, h.Image1, h.Image2, h.Channel, h.Hosting)
 
 	if err != nil {
 		return false, err
@@ -103,4 +104,56 @@ func DeleteSessions(h HostType) (bool, error) {
 	}
 
 	return true, nil
+}
+
+func CreateHost(h HostType) (bool, error) {
+	var checker string
+
+	row := db.QueryRow(`
+		SELECT EMAIL FROM HOSTS
+		WHERE EMAIL=$1
+	`, h.Email)
+
+	err := row.Scan(&checker)
+
+	switch {
+	case err == sql.ErrNoRows:
+		break
+	case err != nil:
+		return false, err
+	case err == nil:
+		if len(checker) > 0 {
+			return false, fmt.Errorf("User already exists")
+		}
+	}
+
+	_, err = db.Exec(`
+		INSERT INTO HOSTS(EMAIL, PASSWORD)
+		VALUES($1, $2)
+	`, h.Email, h.Password)
+
+	if err != nil {
+		return false, err
+	}
+
+	return true, nil
+}
+
+func GetHost(h HostType) (HostType, error) {
+
+	var data HostType
+
+	row := db.QueryRow(`
+	SELECT EMAIL,PORT1,PORT2,IMAGE1,IMAGE2,CHANNEL,HOSTING 
+	FROM HOSTS WHERE EMAIL=$1
+	`, h.Email)
+
+	err := row.Scan(&data.Email, &data.Port1, &data.Port2, &data.Image1,
+		&data.Image2, &data.Channel, &data.Hosting)
+
+	if err != nil {
+		return data, nil
+	}
+
+	return data, nil
 }

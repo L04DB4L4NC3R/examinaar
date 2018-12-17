@@ -18,7 +18,6 @@ type Host struct {
 
 func (h Host) RegisterRoutes() {
 	http.HandleFunc("/host", h.servepage)
-	http.HandleFunc("/test", h.agora)
 }
 
 func (h Host) servepage(w http.ResponseWriter, r *http.Request) {
@@ -42,13 +41,12 @@ func (h Host) servepage(w http.ResponseWriter, r *http.Request) {
 		f := r.Form
 
 		data := model.HostType{
-			Port1:    f.Get("port1"),
-			Port2:    f.Get("port2"),
-			Image1:   f.Get("image1"),
-			Image2:   f.Get("image2"),
-			Email:    f.Get("email"),
-			Password: f.Get("password"),
-			Hosting:  true,
+			Port1:   f.Get("port1"),
+			Port2:   f.Get("port2"),
+			Image1:  f.Get("image1"),
+			Image2:  f.Get("image2"),
+			Email:   f.Get("email"),
+			Hosting: true,
 		}
 
 		_, err = model.CreateSessions(data)
@@ -111,17 +109,5 @@ func (h Host) servepage(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusNotFound)
 		}
 
-	}
-}
-
-func (h Host) agora(w http.ResponseWriter, r *http.Request) {
-	t := h.temp.Lookup("agora.html")
-	if t != nil {
-		err := t.Execute(w, nil)
-		if err != nil {
-			log.Println(err)
-		}
-	} else {
-		w.WriteHeader(http.StatusNotFound)
 	}
 }
