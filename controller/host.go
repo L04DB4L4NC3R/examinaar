@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
+	"time"
 
 	"../model"
 )
@@ -62,24 +63,49 @@ func (h Host) servepage(w http.ResponseWriter, r *http.Request) {
 		}
 
 		go func() {
-			cmd := exec.Command("session", data.Port1, data.Image1)
-			cmd.Stdout = os.Stdout
-			if err := cmd.Run(); err != nil {
+
+			// run docker container
+			set := exec.Command("container_setup", data.Image1, "1")
+			if err := set.Run(); err != nil {
 				log.Fatalln(err)
 			} else {
-				log.Printf("Running %s on port %d", data.Image1, data.Port1)
+
+				// exec into that container and share
+				cmd := exec.Command("session", data.Port1, data.Image1, "1")
+				cmd.Stdout = os.Stdout
+				// cmd.Stdout = os.Stdout
+
+				if err = cmd.Run(); err != nil {
+					log.Fatalln(err)
+				}
+				// } else {
+				// 	c <- "Running" + data.Image1 + "on port" + data.Port1
+				// }
+
 			}
+
 		}()
 
 		go func() {
-			cmd := exec.Command("session", data.Port2, data.Image2)
-			cmd.Stdout = os.Stdout
-			if err := cmd.Run(); err != nil {
+
+			set := exec.Command("container_setup", data.Image2, "2")
+			if err := set.Run(); err != nil {
 				log.Fatalln(err)
 			} else {
-				log.Printf("Running %s on port %d", data.Image2, data.Port2)
+
+				cmd := exec.Command("session", data.Port2, data.Image2, "2")
+				cmd.Stdout = os.Stdout
+				if err = cmd.Run(); err != nil {
+					log.Fatalln(err)
+				}
+				// } else {
+				// 	c <- "Running" + data.Image2 + "on port" + data.Port2
+				// }
 			}
+
 		}()
+
+		time.Sleep(3 * time.Second)
 
 		t := h.temp.Lookup("session.html")
 		if t != nil {
