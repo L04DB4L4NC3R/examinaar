@@ -24,7 +24,7 @@ type HostType struct {
 
 // create sessions. Only 1 session can be created per host at one time
 
-func (h HostType) CreateSessions(db *sql.DB) (bool, error) {
+func CreateSessions(h HostType) (bool, error) {
 	var flag uint8
 	row := db.QueryRow(`
 		SELECT HOSTING FROM HOSTS
@@ -59,7 +59,7 @@ func (h HostType) CreateSessions(db *sql.DB) (bool, error) {
 
 // Show all active sessions
 
-func (h HostType) ReadSessions(db *sql.DB) ([]HostType, error) {
+func ReadSessions(h *HostType) ([]HostType, error) {
 	var (
 		arr  []HostType
 		data HostType
@@ -92,7 +92,7 @@ func (h HostType) ReadSessions(db *sql.DB) ([]HostType, error) {
 	return arr, nil
 }
 
-func (h HostType) DeleteSessions(*sql.DB) (bool, error) {
+func DeleteSessions(h *HostType) (bool, error) {
 	_, err := db.Exec(`
 		DELETE * FROM HOSTS
 		WHERE EMAIL=$1
@@ -105,8 +105,16 @@ func (h HostType) DeleteSessions(*sql.DB) (bool, error) {
 	return true, nil
 }
 
-// func (h HostType) StopSession(*sql.DB) (bool, error) {
-// 	_, err := db.Exec(`
-// 		DELETE PORT1, PORT2, IMAGE1, IMAGE2
-// 	`)
-// }
+func StopSession(h *HostType) (bool, error) {
+	_, err := db.Exec(`
+		DELETE PORT1, PORT2, IMAGE1, IMAGE2, HOSTING
+		FROM HOSTS
+		WHERE EMAIL=$1
+	`, h.Email)
+
+	if err != nil {
+		return false, err
+	}
+
+	return true, nil
+}

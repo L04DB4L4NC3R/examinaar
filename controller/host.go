@@ -46,11 +46,9 @@ func (h Host) servepage(w http.ResponseWriter, r *http.Request) {
 			Image2:   f.Get("image2"),
 			Email:    f.Get("email"),
 			Password: f.Get("password"),
+			Hosting:  true,
 		}
 
-		//log.Println(data)
-
-		// executing terminal logic
 		go func() {
 			cmd := exec.Command("session", data.Port1, data.Image1)
 			cmd.Stdout = os.Stdout
