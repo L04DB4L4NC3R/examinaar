@@ -18,6 +18,8 @@ type Host struct {
 
 func (h Host) RegisterRoutes() {
 	http.HandleFunc("/host", h.servepage)
+	http.HandleFunc("/host/signup", h.Signup)
+	http.HandleFunc("/host/login", h.Login)
 }
 
 func (h Host) servepage(w http.ResponseWriter, r *http.Request) {

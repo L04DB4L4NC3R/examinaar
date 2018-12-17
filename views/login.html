@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Host login</title>
+</head>
+<body>
+    {{ template "_navbar.html" }}
+
+    <div class="row" id="create_new">
+            <form class="col s12" action="/host/login" method="post">
+              <div class="row">
+                <div class="input-field col s6">
+                  <input type="text" id="email" name="email" class="validate">
+                  <label for="email">email</label>
+                </div>
+                <div class="input-field col s6">
+                  <input  type="password" id="password"  name="password" class="validate">
+                  <label for="password">password</label>
+                </div>
+                <div class="input-field col s6">
+                       
+              </div>
+              <button type="submit" class="btn" >Submit</button>
+            </form>
+          </div>
+
+    {{ template "_scripts.html" }}
+</body>
+</html>

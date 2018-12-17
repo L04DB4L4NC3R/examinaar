@@ -25,30 +25,28 @@ type HostType struct {
 // create sessions. Only 1 session can be created per host at one time
 
 func CreateSessions(h HostType) (bool, error) {
-	var flag uint8
+	var mail string
 	row := db.QueryRow(`
-		SELECT HOSTING FROM HOSTS
+		SELECT EMAIL FROM HOSTS
 		WHERE EMAIL=$1
 	`, h.Email)
 
-	err := row.Scan(&flag)
+	err := row.Scan(&mail)
 
 	switch {
 	case err == sql.ErrNoRows:
-		break
+		return false, fmt.Errorf("User not found")
 	case err != nil:
-		if flag == 1 {
-			return false, fmt.Errorf("Session already in place")
-		} else {
-			return false, fmt.Errorf("Error in creating session")
-		}
+		return false, err
+	default:
+		break
+
 	}
-	fmt.Println("ducky")
 	_, err = db.Exec(`
-		INSERT INTO HOSTS(PORT1,PORT2,IMAGE1,IMAGE2,CHANNEL,HOSTING)
-		VALUES($2, $3, $4, $5, $6, $7)
+		UPDATE HOSTS
+		SET PORT1=$2,PORT2=$3,IMAGE1=$4,IMAGE2=$5,CHANNEL=$6,HOSTING=$7
 		WHERE EMAIL=$1
-	`, h.Email, h.Port1, h.Port2, h.Image1, h.Image2, h.Channel, h.Hosting)
+	`, h.Email, h.Port1, h.Port2, h.Image1, h.Image2, h.Channel, true)
 
 	if err != nil {
 		return false, err
@@ -69,7 +67,7 @@ func ReadSessions() ([]HostType, error) {
 	rows, err := db.Query(`
 		SELECT EMAIL,PORT1,PORT2,IMAGE1,IMAGE2,CHANNEL,HOSTING 
 		FROM HOSTS WHERE HOSTING=$1
-	`, 1)
+	`, true)
 
 	if err != nil {
 		return nil, err
@@ -108,7 +106,6 @@ func DeleteSessions(h HostType) (bool, error) {
 
 func CreateHost(h HostType) (bool, error) {
 	var checker string
-
 	row := db.QueryRow(`
 		SELECT EMAIL FROM HOSTS
 		WHERE EMAIL=$1
@@ -144,11 +141,11 @@ func GetHost(h HostType) (HostType, error) {
 	var data HostType
 
 	row := db.QueryRow(`
-	SELECT EMAIL,PORT1,PORT2,IMAGE1,IMAGE2,CHANNEL,HOSTING 
+	SELECT EMAIL,PASSWORD,PORT1,PORT2,IMAGE1,IMAGE2,CHANNEL,HOSTING
 	FROM HOSTS WHERE EMAIL=$1
 	`, h.Email)
 
-	err := row.Scan(&data.Email, &data.Port1, &data.Port2, &data.Image1,
+	err := row.Scan(&data.Email, &data.Password, &data.Port1, &data.Port2, &data.Image1,
 		&data.Image2, &data.Channel, &data.Hosting)
 
 	if err != nil {
