@@ -1,9 +1,10 @@
 package controller
 
 import (
+	"bytes"
 	"encoding/json"
-	"fmt"
 	"html/template"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -75,15 +76,11 @@ func (h Host) servepage(w http.ResponseWriter, r *http.Request) {
 			Hosting: true,
 		}
 
-		_, err = model.CreateSessions(data)
-		switch {
-		case err == fmt.Errorf("Session already in place"):
-			w.Write([]byte("Session already in place"))
+		_, err_msg := model.CreateSessions(data)
+		log.Println(err_msg)
+		if len(err_msg) > 0 {
+			w.Write([]byte(err_msg))
 			return
-		case err != nil:
-			log.Println(err)
-			return
-
 		}
 
 		go func() {
@@ -157,6 +154,8 @@ func (h Host) removeSession(w http.ResponseWriter, r *http.Request) {
 		}
 
 		go func() {
+
+			// remove docker image
 			cmd := exec.Command("docker", "container", "rm", "-f", e.Image1+"1")
 			cmd.Stdout = os.Stdout
 			cmd.Stdin = os.Stdin
@@ -164,6 +163,24 @@ func (h Host) removeSession(w http.ResponseWriter, r *http.Request) {
 			if err = cmd.Run(); err != nil {
 				log.Println(err)
 			}
+
+			// kill gotty bounded to a particular port
+			c1 := exec.Command("fuser", e.Port1+"/tcp")
+			c2 := exec.Command("xargs", "kill")
+
+			r, w := io.Pipe()
+			c1.Stdout = w
+			c2.Stdin = r
+
+			var b2 bytes.Buffer
+			c2.Stdout = &b2
+
+			c1.Start()
+			c2.Start()
+			c1.Wait()
+			w.Close()
+			c2.Wait()
+			io.Copy(os.Stdout, &b2)
 		}()
 
 		go func() {
@@ -174,6 +191,23 @@ func (h Host) removeSession(w http.ResponseWriter, r *http.Request) {
 			if err = cmd.Run(); err != nil {
 				log.Println(err)
 			}
+
+			c1 := exec.Command("fuser", e.Port2+"/tcp")
+			c2 := exec.Command("xargs", "kill")
+
+			r, w := io.Pipe()
+			c1.Stdout = w
+			c2.Stdin = r
+
+			var b2 bytes.Buffer
+			c2.Stdout = &b2
+
+			c1.Start()
+			c2.Start()
+			c1.Wait()
+			w.Close()
+			c2.Wait()
+			io.Copy(os.Stdout, &b2)
 		}()
 
 		_, err = model.DeleteSessions(e.Email)

@@ -24,20 +24,40 @@ type HostType struct {
 
 // create sessions. Only 1 session can be created per host at one time
 
-func CreateSessions(h HostType) (bool, error) {
+func CreateSessions(h HostType) (bool, string) {
+	var temp string
+	roww := db.QueryRow(`
+		SELECT EMAIL
+		FROM HOSTS
+		WHERE PORT1=$1 OR PORT2=$2
+	`, h.Port1, h.Port2)
+
+	err := roww.Scan(&temp)
+
+	switch {
+	case err == sql.ErrNoRows:
+		break
+	case err != nil:
+		return false, "Some error occurrened"
+	default:
+		if len(temp) > 0 {
+			return false, "Some session is already going on with these ports, please choose different ports"
+		}
+	}
+
 	var mail string
 	row := db.QueryRow(`
 		SELECT EMAIL FROM HOSTS
 		WHERE EMAIL=$1
 	`, h.Email)
 
-	err := row.Scan(&mail)
+	err = row.Scan(&mail)
 
 	switch {
 	case err == sql.ErrNoRows:
-		return false, fmt.Errorf("User not found")
+		return false, "User not found"
 	case err != nil:
-		return false, err
+		return false, "Some error occurred while scanning"
 	default:
 		break
 
@@ -50,10 +70,10 @@ func CreateSessions(h HostType) (bool, error) {
 	`, 1, h.Port1, h.Port2, h.Image1, h.Image2, h.Email)
 
 	if err != nil {
-		return false, err
+		return false, "Some error occurred while executing"
 	}
 
-	return true, nil
+	return true, ""
 
 }
 
