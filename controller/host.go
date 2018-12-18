@@ -94,14 +94,14 @@ func (h Host) servepage(w http.ResponseWriter, r *http.Request) {
 		go func() {
 
 			// run docker container
-			set := exec.Command("docker", "container", "run", "-it", "-d", "--name", data.Image1+"1", data.Image1)
+			set := exec.Command("docker", "container", "run", "-it", "-d", "--name", data.Email+"1", data.Image1)
 			if err := set.Run(); err != nil {
 				log.Fatalln(err)
 			} else {
-
 				// exec into that container and share
-				cmd := exec.Command("gotty", "-w", "-p", data.Port1, "docker", "container", "exec", "-it", data.Image1+"1", "sh")
+				cmd := exec.Command("gotty", "-w", "-p", data.Port1, "docker", "container", "exec", "-it", data.Email+"1", "sh")
 				cmd.Stdout = os.Stdout
+				cmd.Stderr = os.Stderr
 
 				if err = cmd.Run(); err != nil {
 					log.Fatalln(err)
@@ -113,13 +113,14 @@ func (h Host) servepage(w http.ResponseWriter, r *http.Request) {
 
 		go func() {
 
-			set := exec.Command("docker", "container", "run", "-it", "-d", "--name", data.Image2+"2", data.Image2)
+			set := exec.Command("docker", "container", "run", "-it", "-d", "--name", data.Email+"2", data.Image2)
 			if err := set.Run(); err != nil {
 				log.Fatalln(err)
 			} else {
 
-				cmd := exec.Command("gotty", "-w", "-p", data.Port2, "docker", "container", "exec", "-it", data.Image2+"2", "sh")
+				cmd := exec.Command("gotty", "-w", "-p", data.Port2, "docker", "container", "exec", "-it", data.Email+"2", "sh")
 				cmd.Stdout = os.Stdout
+				cmd.Stderr = os.Stderr
 				if err = cmd.Run(); err != nil {
 					log.Fatalln(err)
 				}
@@ -164,7 +165,7 @@ func (h Host) removeSession(w http.ResponseWriter, r *http.Request) {
 		go func() {
 
 			// remove docker image
-			cmd := exec.Command("docker", "container", "rm", "-f", e.Image1+"1")
+			cmd := exec.Command("docker", "container", "rm", "-f", e.Email+"1")
 			cmd.Stdout = os.Stdout
 			cmd.Stdin = os.Stdin
 			cmd.Stderr = os.Stderr
@@ -192,7 +193,7 @@ func (h Host) removeSession(w http.ResponseWriter, r *http.Request) {
 		}()
 
 		go func() {
-			cmd := exec.Command("docker", "container", "rm", "-f", e.Image2+"2")
+			cmd := exec.Command("docker", "container", "rm", "-f", e.Email+"2")
 			cmd.Stdout = os.Stdout
 			cmd.Stdin = os.Stdin
 			cmd.Stderr = os.Stderr
