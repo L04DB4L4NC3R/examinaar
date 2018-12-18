@@ -33,10 +33,16 @@ func (u User) ServeBase(w http.ResponseWriter, r *http.Request) {
 			err = t.Execute(w, struct {
 				Email string
 			}{""})
+			if err != nil {
+				log.Println(err)
+			}
 		} else {
 			err = t.Execute(w, struct {
 				Email string
 			}{host.(string)})
+			if err != nil {
+				log.Println(err)
+			}
 		}
 
 		if err != nil {
