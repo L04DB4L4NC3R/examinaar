@@ -67,9 +67,17 @@ func (h Host) servepage(w http.ResponseWriter, r *http.Request) {
 
 		f := r.Form
 
+		port1 := f.Get("port1")
+		port2 := f.Get("port2")
+
+		if !CheckPort(port1, port2) {
+			w.Write([]byte("Invalid value of port"))
+			return
+		}
+
 		data := model.HostType{
-			Port1:   f.Get("port1"),
-			Port2:   f.Get("port2"),
+			Port1:   port1,
+			Port2:   port2,
 			Image1:  f.Get("image1"),
 			Image2:  f.Get("image2"),
 			Email:   host.(string),
