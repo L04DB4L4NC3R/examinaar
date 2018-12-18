@@ -9,6 +9,20 @@
 <body>
     {{ template "_navbar.html" . }}
     {{ template "_scripts.html" }}
+
+
+    {{ if .Email }}
+    <div class="row">
+        <div class="col s12 m6">
+          <div class="card blue-grey darken-1" >
+            <div class="card-content white-text">
+              <span class="card-title">Hello {{ .Email }}</span>
+              <p>Click on manage your sessions to see, join and delete your sessions</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    {{ else }}
     <br><br>
     <div class="row">
         <div class="col s12 m6">
@@ -61,6 +75,6 @@
         </div>
       </div>
     
-    
+    {{ end }}
 </body>
 </html>

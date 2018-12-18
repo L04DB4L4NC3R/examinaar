@@ -70,10 +70,8 @@
                 }), (resp)=>{
                   //console.log(resp)
                   alert(resp)
-                  if (resp=="Deleted"){
-                    $("#create_new").show()
-                  $("#your_session").hide()
-                  }
+                  if (resp=="Deleted")
+                    window.location.reload()
                  
                 })
               })
