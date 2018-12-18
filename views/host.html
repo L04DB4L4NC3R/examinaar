@@ -7,7 +7,15 @@
     <title>Host</title>
 </head>
 <body>
-    {{ template "_navbar.html" }}
+  <nav>
+    <div class="nav-wrapper">
+      <!-- <a href="#" class="brand-logo right">Logo</a> -->
+      <ul id="nav-mobile" class="left hide-on-med-and-down">
+        <li><a href="/">Home</a></li>
+        <li><a href="/host/logout">logout</a></li>
+      </ul>
+    </div>
+  </nav>
     {{ template "_scripts.html" }}
 
     <br><br>
@@ -23,6 +31,9 @@
           <div class="card-action">
             <button id="remove_session">Delete session</button>
           </div>
+          <div class="card-action">
+              <button id="/host/session/view">Go to session</button>
+            </div>
         </div>
       </div>
     </div>
@@ -31,14 +42,6 @@
     <div class="row" id="create_new">
             <form class="col s12" action="/host" method="post">
               <div class="row">
-                <div class="input-field col s6">
-                  <input type="text" id="email" name="email" class="validate">
-                  <label for="email">email</label>
-                </div>
-                <div class="input-field col s6">
-                  <input  type="password" id="password"  name="password" class="validate">
-                  <label for="password">password</label>
-                </div>
                 <div class="input-field col s6">
                         <input type="text" class="validate" id="port1" name="port1">
                         <label for="port1">port1</label>

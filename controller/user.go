@@ -20,6 +20,7 @@ func (u User) RegisterRoutes() {
 }
 
 func (u User) ServeBase(w http.ResponseWriter, r *http.Request) {
+
 	t := u.temp.Lookup("index.html")
 	if t != nil {
 		err := t.Execute(w, nil)
@@ -68,6 +69,7 @@ func (u User) userJoin(w http.ResponseWriter, r *http.Request) {
 			Image2: f.Get("image2"),
 			Email:  f.Get("email"),
 		}
+		log.Println(data)
 
 		t := u.temp.Lookup("agora.html")
 		if t != nil {

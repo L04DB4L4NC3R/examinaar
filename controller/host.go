@@ -22,9 +22,21 @@ func (h Host) RegisterRoutes() {
 	http.HandleFunc("/host/signup", h.Signup)
 	http.HandleFunc("/host/login", h.Login)
 	http.HandleFunc("/host/session/delete", h.removeSession)
+	http.HandleFunc("/host/logout", h.logoutHost)
 }
 
 func (h Host) servepage(w http.ResponseWriter, r *http.Request) {
+	session, err := Store.Get(r, "host")
+	if err != nil {
+		log.Println(err)
+	}
+
+	host := session.Values["host"]
+	if host == nil {
+		http.Redirect(w, r, "/", http.StatusForbidden)
+		return
+	}
+
 	if r.Method == http.MethodGet {
 		t := h.temp.Lookup("host.html")
 		if t != nil {
@@ -49,7 +61,7 @@ func (h Host) servepage(w http.ResponseWriter, r *http.Request) {
 			Port2:   f.Get("port2"),
 			Image1:  f.Get("image1"),
 			Image2:  f.Get("image2"),
-			Email:   f.Get("email"),
+			Email:   host.(string),
 			Hosting: true,
 		}
 
@@ -117,6 +129,14 @@ func (h Host) servepage(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h Host) removeSession(w http.ResponseWriter, r *http.Request) {
+	session, err := Store.Get(r, "host")
+	if err != nil {
+		log.Println(err)
+	}
+	if host := session.Values["host"]; host == nil {
+		http.Redirect(w, r, "/", http.StatusForbidden)
+		return
+	}
 	if r.Method == http.MethodPost {
 		var e model.HostType
 
@@ -154,4 +174,15 @@ func (h Host) removeSession(w http.ResponseWriter, r *http.Request) {
 
 		w.Write([]byte("Deleted"))
 	}
+}
+
+func (h Host) logoutHost(w http.ResponseWriter, r *http.Request) {
+	session, err := Store.Get(r, "host")
+	if err != nil {
+		log.Println(err)
+	}
+
+	session.Values["host"] = nil
+	session.Save(r, w)
+	http.Redirect(w, r, "/", http.StatusSeeOther)
 }

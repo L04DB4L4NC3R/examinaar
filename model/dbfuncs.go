@@ -3,7 +3,6 @@ package model
 import (
 	"database/sql"
 	"fmt"
-	"log"
 )
 
 var db *sql.DB
@@ -88,7 +87,6 @@ func ReadSessions() ([]HostType, error) {
 		}
 
 	}
-	log.Println(arr)
 	return arr, nil
 }
 
