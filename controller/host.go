@@ -40,12 +40,20 @@ func (h Host) servepage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if r.Method == http.MethodGet {
+
+		data := model.HostType{
+			Email: host.(string),
+		}
+
+		val, err := model.GetHost(data)
+
+		if err != nil {
+			log.Println(err)
+		}
+
 		t := h.temp.Lookup("host.html")
 		if t != nil {
-			err := t.Execute(w, nil)
-			if err != nil {
-				log.Println(err)
-			}
+			err = t.Execute(w, val)
 		} else {
 			w.WriteHeader(http.StatusNotFound)
 		}

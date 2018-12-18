@@ -23,7 +23,22 @@ func (u User) ServeBase(w http.ResponseWriter, r *http.Request) {
 
 	t := u.temp.Lookup("index.html")
 	if t != nil {
-		err := t.Execute(w, nil)
+
+		session, err := Store.Get(r, "host")
+		if err != nil {
+			log.Println(err)
+		}
+		host := session.Values["host"]
+		if host == nil {
+			err = t.Execute(w, struct {
+				Email string
+			}{""})
+		} else {
+			err = t.Execute(w, struct {
+				Email string
+			}{host.(string)})
+		}
+
 		if err != nil {
 			log.Println(err)
 		}
