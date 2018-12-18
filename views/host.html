@@ -30,10 +30,8 @@
           </div>
           <div class="card-action">
             <button id="remove_session">Delete session</button>
+            <button id="view-session">Go to session</button>
           </div>
-          <div class="card-action">
-              <button id="/host/session/view">Go to session</button>
-            </div>
         </div>
       </div>
     </div>
@@ -89,6 +87,20 @@
                   $("#your_session").hide()
                   }
                  
+                })
+              })
+
+              $("#view-session").on("click",(e)=>{
+                e.preventDefault()
+                $.post("/host/session/view", JSON.stringify({
+                  Email: "{{ .Email }}",
+                  Port1: "{{ .Port1 }}",
+                  Port2: "{{ .Port2 }}",
+                  Image1: "{{ .Image1 }}",
+                  Image2: "{{ .Image2 }}",
+                  Hosting: "{{ .Hosting }}"
+                }), (resp)=>{
+                  $("body").html(resp)
                 })
               })
 

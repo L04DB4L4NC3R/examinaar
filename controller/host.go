@@ -23,6 +23,8 @@ func (h Host) RegisterRoutes() {
 	http.HandleFunc("/host/login", h.Login)
 	http.HandleFunc("/host/session/delete", h.removeSession)
 	http.HandleFunc("/host/logout", h.logoutHost)
+	http.HandleFunc("/host/session/view", h.viewSession)
+
 }
 
 func (h Host) servepage(w http.ResponseWriter, r *http.Request) {
@@ -185,4 +187,34 @@ func (h Host) logoutHost(w http.ResponseWriter, r *http.Request) {
 	session.Values["host"] = nil
 	session.Save(r, w)
 	http.Redirect(w, r, "/", http.StatusSeeOther)
+}
+
+func (h Host) viewSession(w http.ResponseWriter, r *http.Request) {
+
+	session, err := Store.Get(r, "host")
+	if err != nil {
+		log.Println(err)
+	}
+
+	if host := session.Values["host"]; host == nil {
+		http.Redirect(w, r, "/", http.StatusForbidden)
+		return
+	}
+
+	var data model.HostType
+	err = json.NewDecoder(r.Body).Decode(&data)
+	if err != nil {
+		log.Println(err)
+	}
+
+	t := h.temp.Lookup("agora.html")
+	if t != nil {
+		err = t.Execute(w, data)
+		if err != nil {
+			log.Println(err)
+		}
+	} else {
+		w.WriteHeader(http.StatusNotFound)
+	}
+
 }
