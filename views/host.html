@@ -46,14 +46,14 @@
                       </div> -->
                       <div class="input-field col s12">
                         <select name="image1">
-                          <option value="" disabled selected>Choose your option</option>
-                          <option value="1">alpine</option>
-                          <option value="2">ubuntu</option>
-                          <option value="3">kalilinux/kali-linux-docker</option>
-                          <option value="4">linuxkonsult/kali-metasploit</option>
-                          <option value="5">debian</option>
-                          <option value="6">centos</option>
-                          <option value="7">fedora</option>
+                            <option value="" disabled selected>Choose your option</option>
+                            <option value="alpine">alpine</option>
+                            <option value="ubuntu">ubuntu</option>
+                            <option value="kalilinux/kali-linux-docker">kalilinux/kali-linux-docker</option>
+                            <option value="linuxkonsult/kali-metasploit">linuxkonsult/kali-metasploit</option>
+                            <option value="debian">debian</option>
+                            <option value="centos">centos</option>
+                            <option value="fedora">fedora</option>
                         </select>
                         <label>Select image 1</label>
                       </div>
@@ -61,17 +61,17 @@
                       <div class="input-field col s12">
                           <select name="image2">
                             <option value="" disabled selected>Choose your option</option>
-                            <option value="1">alpine</option>
-                            <option value="2">ubuntu</option>
-                            <option value="3">kalilinux/kali-linux-docker</option>
-                            <option value="4">linuxkonsult/kali-metasploit</option>
-                            <option value="5">debian</option>
-                            <option value="6">centos</option>
-                            <option value="7">fedora</option>
+                            <option value="alpine">alpine</option>
+                            <option value="ubuntu">ubuntu</option>
+                            <option value="kalilinux/kali-linux-docker">kalilinux/kali-linux-docker</option>
+                            <option value="linuxkonsult/kali-metasploit">linuxkonsult/kali-metasploit</option>
+                            <option value="debian">debian</option>
+                            <option value="centos">centos</option>
+                            <option value="fedora">fedora</option>
                           </select>
                           <label>Select image 2</label>
                         </div>
-                        
+
                         <div class="channel">
                             <input type="text" class="validate" id="channel" name="channel">
                             <label for="channel">channel</label>
@@ -113,7 +113,7 @@
                   //console.log(resp)
                   alert(resp)
                   if (resp=="Deleted")
-                    window.location.reload()
+                    window.location.replace("/host")
                  
                 })
               })
