@@ -65,9 +65,9 @@ func CreateSessions(h HostType) (bool, string) {
 
 	_, err = db.Exec(`
 		UPDATE HOSTS
-		SET HOSTING=$1, PORT1=$2, PORT2=$3, IMAGE1=$4, IMAGE2=$5
-		WHERE EMAIL=$6
-	`, 1, h.Port1, h.Port2, h.Image1, h.Image2, h.Email)
+		SET HOSTING=$1, PORT1=$2, PORT2=$3, IMAGE1=$4, IMAGE2=$5, CHANNEL=$6
+		WHERE EMAIL=$7
+	`, 1, h.Port1, h.Port2, h.Image1, h.Image2, h.Channel, h.Email)
 
 	if err != nil {
 		return false, "Some error occurred while executing"
@@ -86,7 +86,7 @@ func ReadSessions() ([]HostType, error) {
 	)
 
 	rows, err := db.Query(`
-		SELECT EMAIL, PORT1, PORT2, IMAGE1, IMAGE2, HOSTING 
+		SELECT EMAIL, PORT1, PORT2, IMAGE1, IMAGE2, HOSTING, CHANNEL 
 		FROM HOSTS WHERE HOSTING=$1
 	`, 1)
 
@@ -95,7 +95,7 @@ func ReadSessions() ([]HostType, error) {
 	}
 
 	for rows.Next() {
-		err = rows.Scan(&data.Email, &data.Port1, &data.Port2, &data.Image1, &data.Image2, &data.Hosting)
+		err = rows.Scan(&data.Email, &data.Port1, &data.Port2, &data.Image1, &data.Image2, &data.Hosting, &data.Channel)
 		switch {
 		case err == sql.ErrNoRows:
 			return nil, nil
@@ -113,7 +113,7 @@ func ReadSessions() ([]HostType, error) {
 func DeleteSessions(e string) (bool, error) {
 	_, err := db.Exec(`
 		UPDATE HOSTS 
-		SET PORT1='', PORT2='', IMAGE1='', IMAGE2='', HOSTING=$1 
+		SET PORT1='', PORT2='', IMAGE1='', IMAGE2='', CHANNEL='', HOSTING=$1 
 		WHERE EMAIL=$2
 	`, 0, e)
 

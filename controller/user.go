@@ -84,11 +84,12 @@ func (u User) userJoin(w http.ResponseWriter, r *http.Request) {
 		f := r.Form
 
 		data := model.HostType{
-			Port1:  f.Get("port1"),
-			Port2:  f.Get("port2"),
-			Image1: f.Get("image1"),
-			Image2: f.Get("image2"),
-			Email:  f.Get("email"),
+			Port1:   f.Get("port1"),
+			Port2:   f.Get("port2"),
+			Image1:  f.Get("image1"),
+			Image2:  f.Get("image2"),
+			Email:   f.Get("email"),
+			Channel: f.Get("channel"),
 		}
 		log.Println(data)
 
