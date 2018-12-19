@@ -82,6 +82,7 @@ func (h Host) servepage(w http.ResponseWriter, r *http.Request) {
 			Image2:  f.Get("image2"),
 			Email:   host.(string),
 			Hosting: true,
+			Channel: f.Get("channel"),
 		}
 
 		_, err_msg := model.CreateSessions(data)

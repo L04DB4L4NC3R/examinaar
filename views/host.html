@@ -8,7 +8,6 @@
 </head>
 <body>
     {{ template "_navbar.html" . }}
-    {{ template "_scripts.html" }}
 
     <br><br>
 {{ if .Port1 }}
@@ -36,27 +35,70 @@
                         <input type="text" class="validate" id="port1" name="port1">
                         <label for="port1">port1</label>
                       </div>
+
                       <div class="input-field col s6">
+                        <input type="text" class="validate" id="port2"  name="port2">
+                        <label for="port2">port2</label>
+                      </div>
+                      <!-- <div class="input-field col s6">
                         <input type="text" class="validate" id="image1" name="image1">
                         <label for="image1">image1</label>
+                      </div> -->
+                      <div class="input-field col s12">
+                        <select name="image1">
+                          <option value="" disabled selected>Choose your option</option>
+                          <option value="1">alpine</option>
+                          <option value="2">ubuntu</option>
+                          <option value="3">kalilinux/kali-linux-docker</option>
+                          <option value="4">linuxkonsult/kali-metasploit</option>
+                          <option value="5">debian</option>
+                          <option value="6">centos</option>
+                          <option value="7">fedora</option>
+                        </select>
+                        <label>Select image 1</label>
                       </div>
-                      <div class="input-field col s6">
-                            <input type="text" class="validate" id="port2"  name="port2">
-                            <label for="port2">port2</label>
+
+                      <div class="input-field col s12">
+                          <select name="image2">
+                            <option value="" disabled selected>Choose your option</option>
+                            <option value="1">alpine</option>
+                            <option value="2">ubuntu</option>
+                            <option value="3">kalilinux/kali-linux-docker</option>
+                            <option value="4">linuxkonsult/kali-metasploit</option>
+                            <option value="5">debian</option>
+                            <option value="6">centos</option>
+                            <option value="7">fedora</option>
+                          </select>
+                          <label>Select image 2</label>
+                        </div>
+                        
+                        <div class="channel">
+                            <input type="text" class="validate" id="channel" name="channel">
+                            <label for="channel">channel</label>
                           </div>
-                          <div class="input-field col s6">
+                          <!-- <div class="input-field col s6">
                             <input type="text" class="validate" id="image2" name="image2">
                             <label for="image2">image2</label>
-                          </div>
+                          </div> -->
+                          
               </div>
               <center><button type="submit" class="btn" id="host-submit">Submit</button></center>
             </form>
           </div>
   {{ end }}
           <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-          <script>
-            $(document).ready(()=>{
+           <!-- Compiled and minified CSS -->
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
+ <!-- Compiled and minified JavaScript -->
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+
+          <script>
+
+            $(document).ready(()=>{
+   
+              $('select').formSelect();
               $("#remove_session").on("click", (e)=>{
                 e.preventDefault();
                 $.post("/host/session/delete", JSON.stringify({

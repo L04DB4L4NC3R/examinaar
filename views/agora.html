@@ -11,21 +11,20 @@
     {{ template "_navbar.html" . }}
     <br>
 
-<h3>If the site is unreachable, reload after some time, your images might be downloading in the background</h3>
 <div id="div_device" class="panel panel-default">
 <div class="select">
-<label for="audioSource">Audio source: </label><select id="audioSource"></select>
+<select id="audioSource"></select>
 </div>
 <div class="select">
-<label for="videoSource">Video source: </label><select id="videoSource"></select>
+<select id="videoSource"></select>
 </div>
 </div>
 
 <div id="div_join" class="panel panel-default">
 <div class="panel-body">
 <!-- App ID: <input id="appId" type="text" value="" size="36"></input> -->
-Channel: <input id="channel" type="text" value="1000" size="4"></input>
-Host: <input id="video" type="checkbox" checked></input>
+<!-- <input id="channel" type="text" value="1000" size="4"></input> -->
+<input id="video" type="checkbox" checked></input>
 <button id="join" class="btn btn-primary" onclick="join()">Join</button>
 <button id="leave" class="btn btn-primary" onclick="leave()">Leave</button>
 <button id="publish" class="btn btn-primary" onclick="publish()">Publish</button>
@@ -89,7 +88,8 @@ function join() {
   client = AgoraRTC.createClient({mode: 'interop'});
   client.init("4039a4bd43d54394945dadef308b1aad", function () {
     console.log("AgoraRTC client initialized");
-    client.join(channel_key, channel.value, null, function(uid) {
+    console.log("Chalnnel is {{ .Channel }}")
+    client.join(channel_key, "{{ .Channel }}", null, function(uid) {
       console.log("User " + uid + " join channel successfully");
 
       if (document.getElementById("video").checked) {
