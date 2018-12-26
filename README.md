@@ -34,15 +34,37 @@ go run main.go
 <br />
 <br />
 
-### Choose your OS
+
+* Choose your own OS as your exam environment
+
+
+* View and join active sessions
+
+
+* Live video calling and monitoring
+
+
+* Shared terminals between examiner and student
+
+
+* Host and student abstraction
+
+
+* Manage your sessions easily 
+
+
+* No memory leaks, mutually exclusive sessions
 
 <br />
+
+<br />
+
+<br />
+
 
 ![choose your OS](screenshots/1.png)
 
 <br />
-
-### View and join active sessions
 
 <br />
 
@@ -50,15 +72,11 @@ go run main.go
 
 <br />
 
-### Live video calling and monitoring
-
 <br />
 
 ![live video calling and monitoring](screenshots/3.png)
 
 <br />
-
-### Shared terminals
 
 <br />
 
@@ -66,15 +84,11 @@ go run main.go
 
 <br />
 
-### Host and student abstraction
-
 <br />
 
 ![host and student abstraction](screenshots/5.png)
 
 <br />
-
-### Manage your sessions
 
 <br />
 
