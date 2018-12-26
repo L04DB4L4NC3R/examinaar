@@ -1,6 +1,9 @@
 # Test.me
+<<<<<<< HEAD
 
 Shared Terminal RTC. 
+=======
+>>>>>>> 77d4934ca4707fb6e8d46ee0261f4a06abd2055a
 Multiple shared web terminals along with web RTC for CEH/Comptia+/RHCE/RHCS/LFCE/LFCS exam aid
 
 <br />
