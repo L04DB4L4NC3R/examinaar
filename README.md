@@ -1,4 +1,6 @@
 # Test.me
+
+Shared Terminal RTC. 
 Multiple shared web terminals along with web RTC for CEH/Comptia+/RHCE/RHCS/LFCE/LFCS exam aid
 
 <br />
@@ -30,7 +32,15 @@ go run main.go
 <br />
 <br />
 
+### Choose your OS
+
+<br />
+
 ![choose your OS](screenshots/1.png)
+
+<br />
+
+### View and join active sessions
 
 <br />
 
@@ -38,7 +48,15 @@ go run main.go
 
 <br />
 
+### Live video calling and monitoring
+
+<br />
+
 ![live video calling and monitoring](screenshots/3.png)
+
+<br />
+
+### Shared terminals
 
 <br />
 
@@ -46,7 +64,15 @@ go run main.go
 
 <br />
 
+### Host and student abstraction
+
+<br />
+
 ![host and student abstraction](screenshots/5.png)
+
+<br />
+
+### Manage your sessions
 
 <br />
 
