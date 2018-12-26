@@ -26,6 +26,8 @@ Multiple shared web terminals along with web RTC for CEH/Comptia+/RHCE/RHCS/LFCE
 
 ```
 go get github.com/yudai/gotty
+go get github.com/mattn/go-sqlite3
+go get github.com/gorilla/sessions
 go run main.go
 ```
 
