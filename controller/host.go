@@ -130,7 +130,7 @@ func (h Host) servepage(w http.ResponseWriter, r *http.Request) {
 
 		}()
 
-		time.Sleep(3 * time.Second)
+		time.Sleep(7 * time.Second)
 
 		t := h.temp.Lookup("agora.html")
 		if t != nil {

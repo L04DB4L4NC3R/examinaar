@@ -1,4 +1,4 @@
-# Test.me
+# Examinaar
 
 Shared Terminal RTC. 
 Multiple shared web terminals along with web RTC for CEH/Comptia+/RHCE/RHCS/LFCE/LFCS exam aid
