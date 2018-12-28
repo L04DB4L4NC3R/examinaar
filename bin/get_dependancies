@@ -1,0 +1,9 @@
+#!/bin/bash
+
+sudo apt-get update && sudo apt-get upgrade -y
+
+go get github.com/yudai/gotty
+
+go get github.com/mattn/go-sqlite3
+
+go get github.com/gorilla/sessions

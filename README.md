@@ -23,12 +23,15 @@ Multiple shared web terminals along with web RTC for CEH/Comptia+/RHCE/RHCS/LFCE
 
 <br />
 
+* Install go dependancies
+
+<br />
+
 
 ```
-go get github.com/yudai/gotty
-go get github.com/mattn/go-sqlite3
-go get github.com/gorilla/sessions
-go run main.go
+chmod +x bin/*
+./bin/get_dependancies
+./bin/main
 ```
 
 <br />
