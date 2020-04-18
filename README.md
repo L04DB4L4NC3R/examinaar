@@ -1,11 +1,10 @@
 # Examinaar
 
 Shared Terminal RTC. 
-Multiple shared web terminals along with web RTC for CEH/Comptia+/RHCE/RHCS/LFCE/LFCS exam aid
+Multiple shared web terminals along with web RTC for CEH/Comptia+/RHCE/RHCS/LFCE/LFCS exam aid. Read the [related blog](https://medium.com/@angadsharma1016/mutually-exclusive-terminal-sessions-on-the-web-bf2393364436) here.
 
 <br />
 <br />
-
 
 ### Steps to run
 
